@@ -40,3 +40,7 @@ Prototipo PWA en español para registro estructurado de una asistencia extrahosp
 - `app.js`: cronómetro, checklist, eventos y exportación.
 - `manifest.webmanifest`: instalación PWA.
 - `sw.js`: caché offline.
+
+
+## Actualización de caché
+La caché de la PWA está versionada como `codigo-ictus-v2` para invalidar los recursos de la versión anterior al actualizar el service worker.
