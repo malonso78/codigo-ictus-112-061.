@@ -5,7 +5,8 @@ Prototipo PWA en español para registro estructurado de una asistencia extrahosp
 ## Contenido
 - Activación manual y cronómetro desde la activación.
 - Registro de cronología: LKW, inicio, aviso, llegada, salida, hospital y transferencia.
-- Valoración clínica, síntomas, constantes, glucemia, Glasgow, NIHSS, mRS y escala prehospitalaria.
+- Valoración clínica, síntomas, constantes, glucemia, Glasgow, NIHSS y mRS.
+- Pestaña específica de escalas con checklist FAST y Cincinnati, cálculo de RACE y registro NIHSS.
 - Antecedentes, anticoagulantes/antiagregantes, alergias y reevaluación.
 - Checklist asistencial configurable en `app.js`.
 - Registro de eventos, preaviso, resumen imprimible/PDF y exportación JSON.

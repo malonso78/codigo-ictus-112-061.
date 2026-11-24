@@ -29,6 +29,7 @@
 <nav class="tabs" aria-label="Secciones">
   <button class="tab active" data-tab="registro">Registro</button>
   <button class="tab" data-tab="valoracion">Valoración</button>
+  <button class="tab" data-tab="escalas">Escalas</button>
   <button class="tab" data-tab="checklist">Checklist</button>
   <button class="tab" data-tab="protocolo">Protocolo</button>
 </nav>
@@ -122,6 +123,74 @@
     <label>Intervenciones realizadas<textarea id="interventions" rows="2"></textarea></label>
   </div>
   <label>Reevaluación neurológica / cambios<textarea id="reassessment" rows="3"></textarea></label>
+</section>
+
+
+<section class="panel" id="escalas">
+  <h2>Escalas neurológicas</h2>
+  <p class="muted">Marca los hallazgos observados. Las escalas son herramientas de cribado/valoración y no sustituyen la evaluación clínica ni el protocolo vigente. Registra la hora y quién realiza la valoración.</p>
+  <div class="grid two">
+    <label>Hora de valoración<input id="scaleAssessmentTime" type="datetime-local"></label>
+    <label>Profesional evaluador<input id="scaleAssessor" placeholder="Código / iniciales"></label>
+  </div>
+  <button class="btn secondary" id="scaleTimeNow">Registrar hora actual</button>
+
+  <div class="scale-card">
+    <div class="scale-title"><div><h3>FAST</h3><p>Face · Arm · Speech · Time</p></div><span class="score-pill" id="fastScore">0/3</span></div>
+    <div class="scale-row"><label><input type="checkbox" class="fast-item"> F — Asimetría facial / caída de un lado de la cara</label></div>
+    <div class="scale-row"><label><input type="checkbox" class="fast-item"> A — Debilidad o caída de un brazo al mantener ambos elevados</label></div>
+    <div class="scale-row"><label><input type="checkbox" class="fast-item"> S — Alteración del habla: dificultad para hablar o lenguaje anormal</label></div>
+    <div class="scale-note"><strong>T — Tiempo:</strong> registrar hora de inicio o última vez visto bien (LKW) en la pestaña Registro. FAST no determina por sí sola diagnóstico ni destino.</div>
+    <div class="scale-result" id="fastResult">Sin hallazgos marcados.</div>
+  </div>
+
+  <div class="scale-card">
+    <div class="scale-title"><div><h3>Cincinnati (CPSS)</h3><p>Cribado prehospitalario de tres signos</p></div><span class="score-pill" id="cincinnatiScore">0/3</span></div>
+    <div class="scale-row"><label><input type="checkbox" class="cinc-item"> Caída facial: asimetría al mostrar los dientes / sonreír</label></div>
+    <div class="scale-row"><label><input type="checkbox" class="cinc-item"> Descenso del brazo: un brazo cae o no mantiene la posición</label></div>
+    <div class="scale-row"><label><input type="checkbox" class="cinc-item"> Habla anormal: disartria o palabras incorrectas / dificultad para expresarse</label></div>
+    <div class="scale-result" id="cincinnatiResult">Sin signos marcados.</div>
+    <p class="scale-note">Registrar los hallazgos observados y el lado afectado en la descripción clínica. Un resultado negativo no excluye ictus.</p>
+  </div>
+
+  <div class="scale-card">
+    <div class="scale-title"><div><h3>RACE</h3><p>Valoración de gravedad y posible oclusión de gran vaso</p></div><span class="score-pill" id="raceScore">0/9</span></div>
+    <p class="scale-note">Selecciona la opción que corresponda a la exploración. La puntuación se calcula automáticamente de acuerdo con las opciones de esta ficha; verifica siempre la versión de RACE validada y adoptada por tu servicio.</p>
+    <div class="grid two">
+      <label>1. Parálisis facial
+        <select class="race-select" data-score="0"><option value="0">Ausente (0)</option><option value="1">Leve (1)</option><option value="2">Moderada-grave (2)</option></select>
+      </label>
+      <label>2. Función motora del brazo
+        <select class="race-select" data-score="0"><option value="0">Normal / mantiene (0)</option><option value="1">Vence gravedad, no mantiene (1)</option><option value="2">No vence gravedad (2)</option></select>
+      </label>
+      <label>3. Función motora de la pierna
+        <select class="race-select" data-score="0"><option value="0">Normal / mantiene (0)</option><option value="1">Vence gravedad, no mantiene (1)</option><option value="2">No vence gravedad (2)</option></select>
+      </label>
+      <label>4. Desviación oculocefálica
+        <select class="race-select" data-score="0"><option value="0">Ausente (0)</option><option value="1">Presente (1)</option></select>
+      </label>
+      <label>5. Función cortical (según lado)
+        <select class="race-select" data-score="0"><option value="0">Normal (0)</option><option value="1">Alteración moderada (1)</option><option value="2">Alteración grave (2)</option></select>
+      </label>
+      <label>Dominio cortical explorado
+        <select id="raceCortical"><option value="">No especificado</option><option>Afasia (habitualmente valorar en déficit derecho)</option><option>Agnosia / negligencia (habitualmente valorar en déficit izquierdo)</option></select>
+      </label>
+    </div>
+    <div class="scale-result" id="raceResult">Puntuación total: 0/9.</div>
+  </div>
+
+  <div class="scale-card">
+    <div class="scale-title"><div><h3>NIHSS</h3><p>National Institutes of Health Stroke Scale</p></div><span class="score-pill">Registro</span></div>
+    <p class="scale-note">La NIHSS requiere formación y administración estandarizada. Para evitar una puntuación incompleta o no validada, registra aquí el resultado obtenido con el formulario oficial/formación del servicio.</p>
+    <div class="grid two">
+      <label>Puntuación NIHSS<input id="nihssDedicated" type="number" min="0" max="42" inputmode="numeric" placeholder="0–42"></label>
+      <label>Hora de NIHSS<input id="nihssDedicatedTime" type="datetime-local"></label>
+    </div>
+    <label>Observaciones / ítems relevantes<textarea id="nihssNotes" rows="3" placeholder="Hallazgos relevantes, limitaciones de la exploración…"></textarea></label>
+  </div>
+
+  <div class="notice warning"><strong>Importante:</strong> los resultados no activan alertas, no establecen diagnóstico y no recomiendan fibrinólisis, trombectomía ni hospital de destino. Los puntos de corte y el circuito deben proceder del protocolo local aprobado.</div>
+  <button class="btn primary" id="saveScales">Añadir resumen de escalas a la cronología</button>
 </section>
 
 <section class="panel" id="checklist">

@@ -16,7 +16,13 @@ function activate(){if(activatedAt)return;activatedAt=Date.now();$("activationTi
 function closeEpisode(){if(!activatedAt)return;addEvent("Episodio cerrado · tiempo transcurrido "+$("timer").textContent);clearInterval(timerInterval);timerInterval=null;$("statusPill").textContent="CERRADO";$("closeBtn").disabled=true}
 function renderChecklist(){const root=$("checklistGroups");root.innerHTML=checklist.map((g,i)=>`<div class="task-group"><h3>${g[0]}</h3>${g[1].map((t,j)=>`<div class="task"><label><input type="checkbox" class="task-check"> <span>${t}</span></label></div>`).join("")}</div>`).join("");root.addEventListener("change",updateProgress);updateProgress()}
 function updateProgress(){const all=[...document.querySelectorAll(".task-check")],done=all.filter(x=>x.checked).length,pct=all.length?Math.round(done/all.length*100):0;$("progressText").textContent=`${done} de ${all.length} completados`;$("progressPct").textContent=pct+"%";$("progressBar").style.width=pct+"%"}
-function fields(){const out={};document.querySelectorAll("input,select,textarea").forEach(el=>{if(!el.id)return;if(el.type==="checkbox")return;out[el.id]=el.value});out.sintomas=[...$("symptoms").querySelectorAll("input:checked")].map(x=>x.parentElement.textContent.trim());out.antecedentes=[...document.querySelectorAll("#valoracion .check-grid")[1].querySelectorAll("input:checked")].map(x=>x.parentElement.textContent.trim());out.checklist=[...document.querySelectorAll(".task")].map(x=>({tarea:x.innerText.trim(),completada:x.querySelector("input").checked}));out.eventos=events;out.activado=!!activatedAt;out.tiempoActivacion=$("timer").textContent;return out}
+function fields(){const out={};document.querySelectorAll("input,select,textarea").forEach(el=>{if(!el.id)return;if(el.type==="checkbox")return;out[el.id]=el.value});out.sintomas=[...$("symptoms").querySelectorAll("input:checked")].map(x=>x.parentElement.textContent.trim());out.antecedentes=[...document.querySelectorAll("#valoracion .check-grid")[1].querySelectorAll("input:checked")].map(x=>x.parentElement.textContent.trim());out.checklist=[...document.querySelectorAll(".task")].map(x=>({tarea:x.innerText.trim(),completada:x.querySelector("input").checked}));out.escalas={
+ fast:{puntuacion:[...document.querySelectorAll(".fast-item")].filter(x=>x.checked).length, hallazgos:[...document.querySelectorAll(".fast-item:checked")].map(x=>x.parentElement.textContent.trim())},
+ cincinnati:{puntuacion:[...document.querySelectorAll(".cinc-item")].filter(x=>x.checked).length, hallazgos:[...document.querySelectorAll(".cinc-item:checked")].map(x=>x.parentElement.textContent.trim())},
+ race:{puntuacion:[...document.querySelectorAll(".race-select")].reduce((a,x)=>a+Number(x.value||0),0), items:[...document.querySelectorAll(".race-select")].map(x=>({valor:x.value,descripcion:x.previousElementSibling?.textContent||""})), dominioCortical:$("raceCortical").value},
+ nihss:{puntuacion:$("nihssDedicated").value,hora:$("nihssDedicatedTime").value,observaciones:$("nihssNotes").value},
+ horaValoracion:$("scaleAssessmentTime").value,evaluador:$("scaleAssessor").value
+};out.eventos=events;out.activado=!!activatedAt;out.tiempoActivacion=$("timer").textContent;return out}
 function exportJSON(){const blob=new Blob([JSON.stringify(fields(),null,2)],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="registro-codigo-ictus.json";a.click();URL.revokeObjectURL(url)}
 document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x===b));document.querySelectorAll(".panel").forEach(x=>x.classList.toggle("active",x.id===b.dataset.tab))}));
 $("activateBtn").addEventListener("click",activate);$("closeBtn").addEventListener("click",closeEpisode);
@@ -24,6 +30,36 @@ document.querySelectorAll("[data-now]").forEach(b=>b.addEventListener("click",()
 $("vitalsNow").addEventListener("click",()=>stamp("vitalsTime"));
 $("addEvent").addEventListener("click",()=>{const v=$("eventNote").value.trim();if(!v)return;addEvent(v);$("eventNote").value=""});
 $("printBtn").addEventListener("click",()=>window.print());$("downloadBtn").addEventListener("click",exportJSON);
-$("resetBtn").addEventListener("click",()=>{if(!confirm("¿Borrar todos los campos y eventos de esta pestaña? Esta acción no se puede deshacer."))return;clearInterval(timerInterval);timerInterval=null;activatedAt=null;events=[];document.querySelectorAll("input,select,textarea").forEach(e=>{if(e.type==="checkbox")e.checked=false;else e.value=""});$("timer").textContent="00:00:00";$("statusPill").textContent="SIN ACTIVAR";$("statusPill").classList.remove("on");$("activateBtn").disabled=false;$("closeBtn").disabled=true;renderEvents();updateProgress()});
+$("resetBtn").addEventListener("click",()=>{if(!confirm("¿Borrar todos los campos y eventos de esta pestaña? Esta acción no se puede deshacer."))return;clearInterval(timerInterval);timerInterval=null;activatedAt=null;events=[];document.querySelectorAll("input,select,textarea").forEach(e=>{if(e.type==="checkbox")e.checked=false;else if(e.classList.contains("race-select"))e.selectedIndex=0;else e.value=""});updateFast();updateCincinnati();updateRace();$("timer").textContent="00:00:00";$("statusPill").textContent="SIN ACTIVAR";$("statusPill").classList.remove("on");$("activateBtn").disabled=false;$("closeBtn").disabled=true;renderEvents();updateProgress()});
 renderChecklist();
 if("serviceWorker" in navigator && location.protocol.startsWith("http"))window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
+
+// Escalas neurológicas: registro descriptivo y cálculo de puntuaciones seleccionadas.
+function updateFast(){
+ const n=[...document.querySelectorAll(".fast-item")].filter(x=>x.checked).length;
+ $("fastScore").textContent=n+"/3";
+ $("fastResult").textContent=n===0?"Sin hallazgos marcados.":`${n} de 3 componentes FAST marcados como alterados.`;
+}
+function updateCincinnati(){
+ const n=[...document.querySelectorAll(".cinc-item")].filter(x=>x.checked).length;
+ $("cincinnatiScore").textContent=n+"/3";
+ $("cincinnatiResult").textContent=n===0?"Sin signos marcados.":`${n} de 3 signos de Cincinnati marcados como anormales.`;
+}
+function updateRace(){
+ const values=[...document.querySelectorAll(".race-select")].map(x=>Number(x.value||0));
+ const n=values.reduce((a,b)=>a+b,0);
+ $("raceScore").textContent=n+"/9";
+ $("raceResult").textContent=`Puntuación RACE registrada: ${n}/9. Confirmar interpretación y umbrales en el protocolo local.`;
+}
+document.querySelectorAll(".fast-item").forEach(x=>x.addEventListener("change",updateFast));
+document.querySelectorAll(".cinc-item").forEach(x=>x.addEventListener("change",updateCincinnati));
+document.querySelectorAll(".race-select").forEach(x=>x.addEventListener("change",updateRace));
+$("scaleTimeNow").addEventListener("click",()=>{$("scaleAssessmentTime").value=nowLocal()});
+$("saveScales").addEventListener("click",()=>{
+ const fast=[...document.querySelectorAll(".fast-item")].filter(x=>x.checked).length;
+ const cinc=[...document.querySelectorAll(".cinc-item")].filter(x=>x.checked).length;
+ const race=[...document.querySelectorAll(".race-select")].reduce((a,x)=>a+Number(x.value||0),0);
+ const nihss=$("nihssDedicated").value||"no registrado";
+ const cortical=$("raceCortical").value||"no especificado";
+ addEvent(`Escalas: FAST ${fast}/3; Cincinnati ${cinc}/3; RACE ${race}/9 (dominio cortical: ${cortical}); NIHSS ${nihss}. Evaluador: ${$("scaleAssessor").value||"no indicado"}`);
+});
