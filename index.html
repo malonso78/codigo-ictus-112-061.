@@ -28,6 +28,7 @@
 
 <nav class="tabs" aria-label="Secciones">
   <button class="tab active" data-tab="registro">Registro</button>
+  <button class="tab" data-tab="activacion">Criterios de activación</button>
   <button class="tab" data-tab="valoracion">Valoración</button>
   <button class="tab" data-tab="escalas">Escalas</button>
   <button class="tab" data-tab="checklist">Checklist</button>
@@ -66,6 +67,41 @@
     <label>Prioridad / recurso<select id="transport"><option value="">Seleccionar</option><option>Traslado urgente medicalizado</option><option>Traslado urgente básico</option><option>Otro según protocolo local</option></select></label>
   </div>
   <label>Observaciones operativas<textarea id="operationalNotes" rows="3" placeholder="Incidencias, accesibilidad, coordinación…"></textarea></label>
+
+</section>
+
+<section class="panel" id="activacion">
+  <h2>Calculadora de criterios de activación</h2>
+  <div class="notice warning"><strong>Ayuda a la decisión, no sustituye el protocolo.</strong> Esta calculadora aplica los criterios que has proporcionado como propuesta de configuración. Debe validarse por la dirección médica y contrastarse con la versión vigente del Plan Andaluz de Ictus y el protocolo del servicio antes de cualquier uso asistencial.</div>
+  <div class="scale-card">
+    <h3>1. Sospecha clínica · Cincinnati (CPSS)</h3>
+    <p class="scale-note">Se reutilizan las tres casillas de Cincinnati de la pestaña «Escalas».</p>
+    <div class="scale-result" id="activationCincinnati">0/3 signos positivos · No cumple sospecha clínica.</div>
+    <button class="btn secondary" type="button" id="goScalesBtn">Ir a Escalas para registrar Cincinnati</button>
+  </div>
+  <div class="scale-card">
+    <h3>2. Tiempo de evolución</h3>
+    <p class="scale-note">Se utiliza el inicio conocido; si no consta, la última vez visto bien (LKW). Para despertar con síntomas o tiempo desconocido, marca la opción correspondiente.</p>
+    <label class="check-option"><input type="checkbox" id="unknownOnset"> Ictus del despertar o inicio desconocido</label>
+    <div class="scale-result" id="activationTimeResult">Pendiente de registrar inicio o LKW.</div>
+  </div>
+  <div class="scale-card">
+    <h3>3. Situación funcional basal · mRS</h3>
+    <p class="scale-note">Se reutiliza el valor de mRS de la pestaña «Valoración».</p>
+    <label class="check-option"><input type="checkbox" id="mrs3Exception"> mRS 3 aceptado por excepción expresamente contemplada en el protocolo local</label>
+    <div class="scale-result" id="activationMrsResult">Pendiente de registrar mRS.</div>
+  </div>
+  <div class="scale-card">
+    <h3>4. Glucemia capilar</h3>
+    <p class="scale-note">Se utiliza el valor de glucemia de la pestaña «Valoración». Umbral configurado: 60 mg/dL.</p>
+    <div class="scale-result" id="activationGlucoseResult">Pendiente de registrar glucemia.</div>
+  </div>
+  <div class="scale-card">
+    <h3>Resultado orientativo</h3>
+    <div class="activation-result pending" id="activationDecision" aria-live="polite">Completa Cincinnati, tiempo, mRS y glucemia para evaluar los criterios.</div>
+    <ul id="activationReasons"><li>Faltan datos para evaluar todos los criterios.</li></ul>
+    <p class="scale-note">La calculadora no pulsa «Activar Código Ictus» ni envía avisos. La decisión y activación deben realizarse por el profesional responsable conforme al circuito local. Si la glucemia es inferior a 60 mg/dL, la app lo señalará para corrección y reevaluación según protocolo.</p>
+  </div>
 </section>
 
 <section class="panel" id="valoracion">

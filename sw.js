@@ -1,4 +1,4 @@
-const CACHE = "codigo-ictus-v3";
+const CACHE = "codigo-ictus-v4";
 const FILES = ["./", "./index.html", "./styles.css", "./app.js", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png"];
 
 self.addEventListener("install", event => {

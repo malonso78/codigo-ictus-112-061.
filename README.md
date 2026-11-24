@@ -57,3 +57,14 @@ Al actualizar GitHub Pages:
 4. En iPhone, abre la URL del sitio en Safari y recarga. Si sigue apareciendo la versión anterior, elimina el acceso directo instalado de la pantalla de inicio y abre la URL en Safari para comprobarla antes de volver a instalarla.
 
 La pestaña «Escalas» debe aparecer en la barra superior, junto a «Valoración» y «Checklist».
+
+
+## Calculadora de criterios de activación (v4)
+
+Se incorpora una pestaña «Criterios de activación» que evalúa la regla facilitada:
+- Cincinnati ≥1 signo positivo (reutiliza las casillas de la pestaña Escalas).
+- Inicio conocido o LKW <24 horas; o marcar ictus del despertar/inicio desconocido.
+- mRS basal 0–2; mRS 3 solo si se marca la excepción protocolizada.
+- Glucemia capilar ≥60 mg/dL.
+
+La calculadora informa si los criterios configurados se cumplen, no se cumplen o faltan datos. No activa el código automáticamente. La excepción mRS 3 y la aceptación de inicio desconocido/despertar deben revisarse frente al protocolo oficial vigente y aprobarse localmente antes de cualquier uso asistencial. No usar como sistema de decisión clínica validado.

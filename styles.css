@@ -4,3 +4,11 @@
 @media print{body{background:#fff}.topbar{padding:10px}.hero,.tabs,.hero-actions,.export-buttons,.btn,.export-area .notice{display:none!important}.panel,.export-area{display:block!important;box-shadow:none;margin:0;padding:10px;break-inside:avoid}.panel{page-break-inside:auto}input,select,textarea{border:0;border-bottom:1px solid #bbb;padding:3px 0;min-height:0}textarea{min-height:35px}.notice{border:1px solid #ccc}footer{padding:10px}}
 
 .scale-card{border:1px solid #dce5ea;border-radius:13px;padding:13px;margin:15px 0;background:#fbfdfe}.scale-title{display:flex;justify-content:space-between;align-items:center;gap:10px}.scale-title h3{border:0;margin:0 0 3px;padding:0;font-size:17px}.scale-title p{margin:0;color:#71828d;font-size:11px}.score-pill{background:#e7f0f5;color:#17435d;border-radius:18px;padding:7px 10px;font-weight:800;font-size:12px;white-space:nowrap}.scale-row{padding:11px 0;border-bottom:1px solid #eaf0f3}.scale-row:last-of-type{border-bottom:0}.scale-row label{display:flex;gap:10px;align-items:flex-start;font-size:13px;line-height:1.4}.scale-row input{width:19px;height:19px;min-height:19px;margin:0;flex:none;accent-color:#176487}.scale-note{font-size:12px;color:#647987;line-height:1.45;margin:10px 0}.scale-result{margin-top:10px;padding:10px;border-radius:9px;background:#edf5f8;color:#234e64;font-size:13px;font-weight:700}
+
+/* Calculadora de criterios de activación */
+.activation-result{padding:14px;border-radius:12px;font-weight:800;background:#eef2f6;color:#243746;margin:10px 0}
+.activation-result.pass{background:#e6f5ec;color:#14532d}
+.activation-result.fail{background:#fff0ed;color:#9f2d20}
+.activation-result.pending{background:#eef2f6;color:#334155}
+.check-option{display:flex;align-items:flex-start;gap:10px;padding:10px 0;font-weight:600}
+.check-option input{width:20px;height:20px;flex:0 0 auto;margin-top:1px}
