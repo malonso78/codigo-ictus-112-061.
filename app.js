@@ -32,7 +32,7 @@ $("addEvent").addEventListener("click",()=>{const v=$("eventNote").value.trim();
 $("printBtn").addEventListener("click",()=>window.print());$("downloadBtn").addEventListener("click",exportJSON);
 $("resetBtn").addEventListener("click",()=>{if(!confirm("¿Borrar todos los campos y eventos de esta pestaña? Esta acción no se puede deshacer."))return;clearInterval(timerInterval);timerInterval=null;activatedAt=null;events=[];document.querySelectorAll("input,select,textarea").forEach(e=>{if(e.type==="checkbox")e.checked=false;else if(e.classList.contains("race-select"))e.selectedIndex=0;else e.value=""});updateFast();updateCincinnati();updateRace();$("timer").textContent="00:00:00";$("statusPill").textContent="SIN ACTIVAR";$("statusPill").classList.remove("on");$("activateBtn").disabled=false;$("closeBtn").disabled=true;renderEvents();updateProgress()});
 renderChecklist();
-if("serviceWorker" in navigator && location.protocol.startsWith("http"))window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
+if("serviceWorker" in navigator && location.protocol.startsWith("http"))window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js", {updateViaCache:"none"}).then(reg=>reg.update()).catch(()=>{}));
 
 // Escalas neurológicas: registro descriptivo y cálculo de puntuaciones seleccionadas.
 function updateFast(){

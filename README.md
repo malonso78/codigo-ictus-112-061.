@@ -44,3 +44,16 @@ Prototipo PWA en español para registro estructurado de una asistencia extrahosp
 
 ## Actualización de caché
 La caché de la PWA está versionada como `codigo-ictus-v2` para invalidar los recursos de la versión anterior al actualizar el service worker.
+
+
+## Solución si no aparece la pestaña «Escalas»
+
+Esta versión incluye la pestaña **Escalas** en `index.html` y renueva la caché a `codigo-ictus-v3`.
+
+Al actualizar GitHub Pages:
+1. Sustituye **todos** los archivos del repositorio por los de este ZIP.
+2. Comprueba que `index.html`, `app.js`, `styles.css` y `sw.js` estén en la raíz publicada (junto a `manifest.webmanifest`), no dentro de una subcarpeta.
+3. Espera a que GitHub Pages termine el despliegue.
+4. En iPhone, abre la URL del sitio en Safari y recarga. Si sigue apareciendo la versión anterior, elimina el acceso directo instalado de la pantalla de inicio y abre la URL en Safari para comprobarla antes de volver a instalarla.
+
+La pestaña «Escalas» debe aparecer en la barra superior, junto a «Valoración» y «Checklist».
